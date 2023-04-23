@@ -1,4 +1,4 @@
-From docker pull jupyterhub/k8s-hub
+From jupyterhub/k8s-hub
 
 CMD sudo apt update -y
 CMD sudo apt install openjdk-11-jre

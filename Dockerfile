@@ -1,7 +1,20 @@
-FROM jupyterhub/k8s-singleuser-sample:3.0.0-0.dev.git.6136.h50fe018a
+FROM jupyter/pyspark-notebook:latest
 
-CMD sudo apt update -y
-CMD sudo apt install openjdk-11-jre
-CMD sudo apt install python3-pip
+ARG DELTA_CORE_VERSION="1.2.1"
+RUN pip install --no-cache-dir delta-spark==${DELTA_CORE_VERSION} && \
+     fix-permissions "${HOME}" && \
+     fix-permissions "${CONDA_DIR}"
 
-CMD pip3 install delta-spark
+USER root
+
+RUN echo 'spark.sql.extensions io.delta.sql.DeltaSparkSessionExtension' >> "${SPARK_HOME}/conf/spark-defaults.conf" && \
+    echo 'spark.sql.catalog.spark_catalog org.apache.spark.sql.delta.catalog.DeltaCatalog' >> "${SPARK_HOME}/conf/spark-defaults.conf"
+
+USER ${NB_UID}
+
+# Trigger download of delta lake files
+RUN echo "from pyspark.sql import SparkSession" > /tmp/init-delta.py && \
+    echo "from delta import *" >> /tmp/init-delta.py && \
+    echo "spark = configure_spark_with_delta_pip(SparkSession.builder).getOrCreate()" >> /tmp/init-delta.py && \
+    python /tmp/init-delta.py && \
+    rm /tmp/init-delta.py

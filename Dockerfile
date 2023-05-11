@@ -1,6 +1,6 @@
 FROM jupyter/pyspark-notebook:latest
 
-ARG DELTA_CORE_VERSION="1.2.1"
+ARG DELTA_CORE_VERSION="1.0.1"
 RUN pip install --no-cache-dir delta-spark==${DELTA_CORE_VERSION} && \
      fix-permissions "${HOME}" && \
      fix-permissions "${CONDA_DIR}"

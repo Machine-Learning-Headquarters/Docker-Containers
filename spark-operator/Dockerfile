@@ -2,6 +2,8 @@ FROM apache/spark:v3.4.0
 
 USER 185
 
+COPY hack/gencerts.sh /usr/bin/
+
 WORKDIR /
 
 USER 0
@@ -14,8 +16,6 @@ RUN apt-get update --allow-releaseinfo-change \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pyspark==3.4.0
-
-COPY hack/gencerts.sh /usr/bin/
 
 WORKDIR /opt/spark/work-dir
 

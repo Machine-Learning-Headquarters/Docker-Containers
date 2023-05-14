@@ -2,8 +2,6 @@ FROM apache/spark:v3.4.0
 
 USER 185
 
-COPY spark-operator/hack/gencerts.sh /usr/bin/
-
 WORKDIR /
 
 USER 0
@@ -18,6 +16,10 @@ RUN apt-get update --allow-releaseinfo-change \
 RUN pip3 install pyspark==3.4.0
 
 WORKDIR /opt/spark/work-dir
+
+COPY spark-operator/hack/gencerts.sh /usr/bin/
+
+RUN chmod +x /usr/bin/gencerts.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
 

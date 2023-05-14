@@ -2,7 +2,7 @@ FROM apache/spark:v3.4.0
 
 USER 185
 
-COPY hack/gencerts.sh /usr/bin/
+COPY spark-operator/hack/gencerts.sh /usr/bin/
 
 WORKDIR /
 

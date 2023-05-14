@@ -12,7 +12,7 @@ RUN echo 'spark.sql.extensions io.delta.sql.DeltaSparkSessionExtension' >> "${SP
 
 USER ${NB_UID}
 
-# Trigger download of delta lake files
+# Trigger download of delta lake file
 RUN echo "from pyspark.sql import SparkSession" > /tmp/init-delta.py && \
     echo "from delta import *" >> /tmp/init-delta.py && \
     echo "spark = configure_spark_with_delta_pip(SparkSession.builder).getOrCreate()" >> /tmp/init-delta.py && \

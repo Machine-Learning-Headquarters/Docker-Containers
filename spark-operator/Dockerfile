@@ -15,5 +15,5 @@ WORKDIR /opt/spark/work-dir
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
 ARG spark_uid=185
-
+#kick-off comment
 USER 185

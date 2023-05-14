@@ -1,4 +1,4 @@
-FROM apache/spark:v3.4.0
+FROM apache/spark:v3.3.2
 
 USER 185
 
@@ -13,7 +13,7 @@ RUN apt-get update --allow-releaseinfo-change \
     && apt-get install -y openssl curl tini \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install pyspark==3.4.0
+RUN pip3 install pyspark==3.3.2
 
 WORKDIR /opt/spark/work-dir
 

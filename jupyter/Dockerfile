@@ -30,9 +30,11 @@ RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/ma
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VERSION}/hadoop-aws-${SPARK_VERSION}.jar -P ${SPARK_HOME}/jars/ && \
     wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar -P ${SPARK_HOME}/jars/
 
-RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools && rm -r /root/.cache && rm -rf /var/cache/apt/* 
+RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools
 
-USER ${NB_UID}
+RUN chown -R jovyan:jovyan /home/jovyan/
+
+USER jovyan
 
 RUN pip3 install pyspark==${SPARK_VERSION}
 

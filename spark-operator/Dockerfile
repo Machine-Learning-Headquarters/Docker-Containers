@@ -19,7 +19,7 @@ RUN apt-get update && \
 # Download and install Spark
 RUN wget -O /tmp/${SPARK_PACKAGE}.tgz https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz && \
     tar -xvf /tmp/${SPARK_PACKAGE}.tgz -C /usr/ && \
-    rm /tmp/${SPARK_PACKAGE}
+    rm /tmp/${SPARK_PACKAGE}.tgz
 
 # Download and copy Delta Lake JAR file to the Spark jars directory
 RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-core_${SCALA_VERSION}/${DELTA_LAKE_VERSION}/delta-core_${SCALA_VERSION}-${DELTA_LAKE_VERSION}.jar && \

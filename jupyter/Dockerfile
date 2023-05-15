@@ -25,6 +25,16 @@ RUN wget -O /tmp/${SPARK_PACKAGE}.tgz https://archive.apache.org/dist/spark/spar
 # Download and copy Delta Lake JAR file to the Spark jars directory
 RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-core_${SCALA_VERSION}/${DELTA_LAKE_VERSION}/delta-core_${SCALA_VERSION}-${DELTA_LAKE_VERSION}.jar && \
     mv /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar ${SPARK_HOME}/jars
+    
+# Download and copy Delta Lake JAR file to the Spark jars directory
+# https://repo1.maven.org/maven2/io/delta/delta-contribs_2.13/2.0.2/delta-contribs_2.13-2.0.2.jar
+RUN wget -O /tmp/delta-contribs-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-contribs_2.13/2.0.2/delta-contribs_2.13-2.0.2.jar && \
+    mv /tmp/delta-contribs-${DELTA_LAKE_VERSION}.jar ${SPARK_HOME}/jars
+    
+# Download and copy Delta Lake JAR file to the Spark jars directory
+# https://repo1.maven.org/maven2/io/delta/delta-storage-s3-dynamodb/2.0.2/delta-storage-s3-dynamodb-2.0.2.jar
+RUN wget -O /tmp/delta-storage-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-storage-s3-dynamodb/${DELTA_LAKE_VERSION}/delta-storage-s3-dynamodb-${DELTA_LAKE_VERSION}.jar && \
+    mv /tmp/delta-storage-${DELTA_LAKE_VERSION}.jar ${SPARK_HOME}/jars
 
 # Download and copy AWS SDK and Hadoop AWS JAR files to the Spark jars directory
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VERSION}/hadoop-aws-${SPARK_VERSION}.jar -P ${SPARK_HOME}/jars/ && \

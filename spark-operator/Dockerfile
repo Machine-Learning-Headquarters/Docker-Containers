@@ -46,6 +46,10 @@ COPY spark-operator/hack/gencerts.sh /usr/bin/
 
 RUN chmod +x /usr/bin/gencerts.sh
 
+COPY spark-operator/entrypoint.sh 
+
+RUN chmod +x /usr/bin/entrypoint.sh
+
 # Expose Spark UI ports
 EXPOSE 4040 8080 8081
 

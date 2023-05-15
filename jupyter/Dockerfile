@@ -32,9 +32,7 @@ RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VER
 
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools
 
-RUN chown -R jovyan:jovyan /home/jovyan/
-
-USER jovyan
+USER ${NB_UID}
 
 RUN pip3 install pyspark==${SPARK_VERSION}
 
@@ -49,3 +47,5 @@ RUN echo "from pyspark.sql import SparkSession" > /tmp/init-delta.py && \
     echo "spark = configure_spark_with_delta_pip(SparkSession.builder).getOrCreate()" >> /tmp/init-delta.py && \
     python /tmp/init-delta.py && \
     rm /tmp/init-delta.py
+    
+USER ${NB_UID}

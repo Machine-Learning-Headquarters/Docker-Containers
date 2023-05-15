@@ -1,4 +1,4 @@
-FROM jupyter/pyspark-notebook:spark-3.2.4
+FROM jupyter/base-notebook:latest
 
 # Define environment variables
 ENV SPARK_VERSION=3.2.4

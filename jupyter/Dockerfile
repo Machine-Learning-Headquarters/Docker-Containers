@@ -30,11 +30,6 @@ RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VER
 
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools && rm -r /root/.cache && rm -rf /var/cache/apt/* 
 
-RUN apt-get update --allow-releaseinfo-change \
-    && apt-get update \
-    && apt-get install -y openssl curl tini \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN pip3 install pyspark==${SPARK_VERSION}
 
 RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}

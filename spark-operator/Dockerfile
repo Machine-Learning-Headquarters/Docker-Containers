@@ -1,10 +1,30 @@
-FROM apache/spark:v3.3.2
+# Use an openjdk image as the base image
+FROM openjdk:11-jdk
 
-USER 185
+# Define environment variables
+ENV SPARK_VERSION=3.2.2
+ENV HADOOP_VERSION=3.2.0
+ENV DELTA_LAKE_VERSION=1.0.0
+ENV SPARK_HOME=/usr/spark-${SPARK_VERSION}
+ENV HADOOP_HOME=/usr/hadoop-${HADOOP_VERSION}
+ENV PATH $PATH:${SPARK_HOME}/bin
 
-WORKDIR /
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y wget vim
 
-USER 0
+# Download and install Spark
+RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
+    tar -xvf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /usr/ && \
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
+
+# Download and copy Delta Lake JAR file to the Spark jars directory
+RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-core_${scala.version}/${DELTA_LAKE_VERSION}/delta-core_${scala.version}-${DELTA_LAKE_VERSION}.jar && \
+    mv /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar ${SPARK_HOME}/jars
+
+# Download and copy AWS SDK and Hadoop AWS JAR files to the Spark jars directory
+RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar -P ${SPARK_HOME}/jars/ && \
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar -P ${SPARK_HOME}/jars/
 
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools && rm -r /root/.cache && rm -rf /var/cache/apt/* 
 
@@ -21,8 +41,11 @@ COPY spark-operator/hack/gencerts.sh /usr/bin/
 
 RUN chmod +x /usr/bin/gencerts.sh
 
+# Expose Spark UI ports
+EXPOSE 4040 8080 8081
+
+# Set working directory
+WORKDIR ${SPARK_HOME}
+
+# Command to run spark-shell
 ENTRYPOINT ["/opt/entrypoint.sh"]
-
-ARG spark_uid=185
-
-USER 185

@@ -38,7 +38,7 @@ RUN apt-get update --allow-releaseinfo-change \
 
 RUN pip3 install pyspark==${SPARK_VERSION}
 
-RUN pip3 install delta-spark==${DELTA_VERSION}
+RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
 
 WORKDIR /opt/spark/work-dir
 

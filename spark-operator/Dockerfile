@@ -9,7 +9,7 @@ ENV DELTA_LAKE_VERSION=2.0.1
 
 ENV HADOOP_HOME=/usr/hadoop-${HADOOP_VERSION}
 ENV PATH $PATH:${SPARK_HOME}/bin
-ENV SPARK_PACKAGE=spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}-scala${SCALA_VERSION}.tgz  
+ENV SPARK_PACKAGE=spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}-scala${SCALA_VERSION}
 ENV SPARK_HOME=/usr/${SPARK_PACKAGE}
 
 # Install necessary packages
@@ -17,8 +17,8 @@ RUN apt-get update && \
     apt-get install -y wget vim
 
 # Download and install Spark
-RUN wget -O /tmp/${SPARK_PACKAGE} https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE} && \
-    tar -xvf /tmp/${SPARK_PACKAGE} -C /usr/ && \
+RUN wget -O /tmp/${SPARK_PACKAGE}.tgz https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz && \
+    tar -xvf /tmp/${SPARK_PACKAGE}.tgz -C /usr/ && \
     rm /tmp/${SPARK_PACKAGE}
 
 # Download and copy Delta Lake JAR file to the Spark jars directory

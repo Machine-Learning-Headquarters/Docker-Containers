@@ -32,11 +32,11 @@ RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VER
 
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools
 
-USER ${NB_UID}
-
 RUN pip3 install pyspark==${SPARK_VERSION}
 
 RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
+
+USER ${NB_UID}
 
 RUN echo 'spark.sql.extensions io.delta.sql.DeltaSparkSessionExtension' >> "${SPARK_HOME}/conf/spark-defaults.conf" && \
     echo 'spark.sql.catalog.spark_catalog org.apache.spark.sql.delta.catalog.DeltaCatalog' >> "${SPARK_HOME}/conf/spark-defaults.conf"

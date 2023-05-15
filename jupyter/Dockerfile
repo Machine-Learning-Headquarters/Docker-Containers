@@ -1,5 +1,7 @@
 FROM jupyter/base-notebook:latest
 
+USER root
+
 # Define environment variables
 ENV SPARK_VERSION=3.2.4
 ENV HADOOP_VERSION=3.2
@@ -33,8 +35,6 @@ RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgr
 RUN pip3 install pyspark==${SPARK_VERSION}
 
 RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
-
-USER root
 
 RUN echo 'spark.sql.extensions io.delta.sql.DeltaSparkSessionExtension' >> "${SPARK_HOME}/conf/spark-defaults.conf" && \
     echo 'spark.sql.catalog.spark_catalog org.apache.spark.sql.delta.catalog.DeltaCatalog' >> "${SPARK_HOME}/conf/spark-defaults.conf"

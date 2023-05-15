@@ -15,7 +15,7 @@ ENV SPARK_HOME=/usr/${SPARK_PACKAGE}
 
 # Install necessary packages
 RUN apt-get update && \
-    apt-get install -y wget vim
+    apt-get install -y wget vim openjdk-11-jdk
 
 # Download and install Spark
 RUN wget -O /tmp/${SPARK_PACKAGE}.tgz https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACKAGE}.tgz && \
@@ -30,6 +30,8 @@ RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/ma
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${SPARK_VERSION}/hadoop-aws-${SPARK_VERSION}.jar -P ${SPARK_HOME}/jars/ && \
     wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar -P ${SPARK_HOME}/jars/
 
+USER ${NB_UID}
+
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools && rm -r /root/.cache && rm -rf /var/cache/apt/* 
 
 RUN pip3 install pyspark==${SPARK_VERSION}
@@ -38,8 +40,6 @@ RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
 
 RUN echo 'spark.sql.extensions io.delta.sql.DeltaSparkSessionExtension' >> "${SPARK_HOME}/conf/spark-defaults.conf" && \
     echo 'spark.sql.catalog.spark_catalog org.apache.spark.sql.delta.catalog.DeltaCatalog' >> "${SPARK_HOME}/conf/spark-defaults.conf"
-
-USER ${NB_UID}
 
 # Trigger download of delta lake file
 RUN echo "from pyspark.sql import SparkSession" > /tmp/init-delta.py && \

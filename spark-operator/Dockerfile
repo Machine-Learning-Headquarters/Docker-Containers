@@ -16,9 +16,9 @@ RUN apt-get update && \
     apt-get install -y wget vim
 
 # Download and install Spark
-RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACAKGE} && \
-    tar -xvf ${SPARK_PACKAGE} -C /usr/ && \
-    rm ${SPARK_PACKAGE}
+RUN wget -O /tmp/${SPARK_PACKAGE} https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_PACAKGE} && \
+    tar -xvf /tmp/${SPARK_PACKAGE} -C /usr/ && \
+    rm /tmp/${SPARK_PACKAGE}
 
 # Download and copy Delta Lake JAR file to the Spark jars directory
 RUN wget -O /tmp/delta-lake-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org/maven2/io/delta/delta-core_${SCALA_VERSION}/${DELTA_LAKE_VERSION}/delta-core_${SCALA_VERSION}-${DELTA_LAKE_VERSION}.jar && \

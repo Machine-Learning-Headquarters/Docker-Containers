@@ -40,7 +40,7 @@ RUN wget -O /tmp/delta-storage-${DELTA_LAKE_VERSION}.jar https://repo1.maven.org
 
 # Download and copy AWS SDK and Hadoop AWS JAR files to the Spark jars directory
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar -P ${SPARK_HOME}/jars/ && \
-    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.375/aws-java-sdk-bundle-1.11.375.jar -P ${SPARK_HOME}/jars/
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.469/aws-java-sdk-bundle-1.12.469.jar -P ${SPARK_HOME}/jars/
 
 RUN apt-get update && apt install -y python3 python3-pip &&  pip3 install --upgrade pip setuptools
 
@@ -48,6 +48,6 @@ RUN pip3 install pyspark==${SPARK_VERSION}
 
 RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
 
-RUN echo "io.delta:delta-core_2.13:2.3.0" > $SPARK_HOME/conf/spark-defaults.conf
-RUN echo "org.apache.hadoop:hadoop-aws:3.3.4" >> $SPARK_HOME/conf/spark-defaults.conf
+RUN echo "spark.jar.packages io.delta:delta-core_${SCALA_VERSION}:${DELTA_VERSION},org.apache.hadoop:hadoop-aws:${HADOOP_VERSION}" > $SPARK_HOME/conf/spark-defaults.conf
+
 USER ${NB_UID}

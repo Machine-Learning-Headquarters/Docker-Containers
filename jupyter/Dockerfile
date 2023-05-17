@@ -50,4 +50,6 @@ RUN pip3 install delta-spark==${DELTA_LAKE_VERSION}
 
 RUN echo "spark.jar.packages io.delta:delta-core_${SCALA_VERSION}:${DELTA_VERSION},org.apache.hadoop:hadoop-aws:${HADOOP_VERSION}" > $SPARK_HOME/conf/spark-defaults.conf
 
+RUN chown -R ${NB_UID}:users /usr/${SPARK_HOME}
+
 USER ${NB_UID}

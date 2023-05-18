@@ -2,6 +2,10 @@ FROM jupyter/base-notebook:latest
 
 USER root
 
+COPY jupyter/install_cuda.sh /usr/bin/
+
+RUN /bin/bash /usr/bin/install_cuda.sh
+
 # Define environment variables
 ENV SPARK_VERSION=3.3.2
 ENV HADOOP_MAJOR_VERSION=3
